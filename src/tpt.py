@@ -21,15 +21,15 @@ def add_entry():
     formatted_date = now.strftime("%d/%b/%Y")
     
     # Get how many square the used used
-    print("How many square did you use? :")
+    print("How many square did you use? :", end="")
     square = int(input())
 
     # Get location from the user
-    print("Where did you do your business? :")
+    print("Where did you do your business? :", end="")
     location = str(input())
 
     # Ask the user for notes
-    print("Do you want to take any notes about IT? :")
+    print("Do you want to take any notes about IT? :", end="")
     notes = str(input())
 
 # Command line arguments

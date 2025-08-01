@@ -32,11 +32,17 @@ def add_entry():
     print("Do you want to take any notes about IT? :", end="")
     notes = str(input())
 
+def display_stats():
+    print("Stats placeholder")
+
 # Command line arguments
 parser.add_argument('-a', '--add', required=False, action='store_true', help='Add a new entry.')
+parser.add_argument('-s', '--stats', required=False, action='store_true', help='Display the stats you tracked.')
 
 # Parse arguments
 args = parser.parse_args()
 
 if args.add:
     add_entry()
+if args.stats:
+    display_stats()

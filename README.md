@@ -8,7 +8,7 @@ Yes, it's ridiculous. Yes, it's real.
 
 ## 💡 Why?
 
-Because you **could**. And that’s reason enough.
+Because I **could**. And that’s reason enough.
 
 Plus:
 - Learn basic file logging and parsing
@@ -31,6 +31,5 @@ Plus:
 
 ## 🛠 Possible Badge (if using Python)
 
-```markdown
 ![Made with Python](https://img.shields.io/badge/Made%20with-Python-blue?style=flat&logo=python)
 

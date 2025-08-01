@@ -20,7 +20,7 @@ def add_entry():
     # Format date as "day/MonthAbbreviation/year"
     formatted_date = now.strftime("%d/%b/%Y")
     
-    # Get how many square the used used
+    # Get how many square the user used
     print("How many square did you use? :", end="")
     square = int(input())
 

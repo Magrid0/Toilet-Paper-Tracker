@@ -1,4 +1,5 @@
 # 🧻 Toilet Paper Tracker
+![Made with Python](https://img.shields.io/badge/Made%20with-Python-blue?style=flat&logo=python)
 
 A completely unnecessary command-line tool that lets you log every time you use toilet paper. Tracks squares used, logs sessions, and gives you totally unhelpful statistics like "average squares per day" and "most wasteful morning."
 
@@ -26,10 +27,3 @@ Plus:
   - Average squares per day
   - Longest TP drought
   - Your most “wasteful” day (hello, tacos)
-
----
-
-## 🛠 Possible Badge (if using Python)
-
-![Made with Python](https://img.shields.io/badge/Made%20with-Python-blue?style=flat&logo=python)
-

@@ -19,7 +19,7 @@ Plus:
 
 ## 🚀 Features
 
-- `tp add [squares]`: Log a toilet paper usage session
+- `tp add`: Log a toilet paper usage session
 - `tp stats`: View your TP usage stats
 - Tracks:
   - Total squares used

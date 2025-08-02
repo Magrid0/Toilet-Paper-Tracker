@@ -1,5 +1,9 @@
 import argparse # Library to parse command line arguments
 from datetime import datetime # Library to get the current timestamp
+import csv # Library to manipulate csv file
+from pathlib import Path
+
+db = Path("testData.csv")
 
 # Parser to interpret command line arguments
 parser = argparse.ArgumentParser(
@@ -7,10 +11,24 @@ parser = argparse.ArgumentParser(
                     description='Track how much toilet paper you use',
                     epilog='')
 
+# Check if the "database" exist
+def check_db():
+    if not db.exists():
+        with open(db, "w", newline="") as f:
+            f.write("timestamp, squares, location, notes\n") # Write the header
+
+# Actually write the entry to the "database"
+def write_entry(time, sqr, loc, notes):
+    with open(db, "a", newline="") as f:
+        writer = csv.writer(f)
+        writer.writerow([time, sqr, loc, notes])
+
 # Add an entry
 def add_entry():
+    check_db()
+
     # Define some default variables
-    square = int(0)
+    squares = int(0)
     location = str('N/D')
     notes = str('No notes added')
 
@@ -19,10 +37,10 @@ def add_entry():
 
     # Format date as "day/MonthAbbreviation/year"
     formatted_date = now.strftime("%d/%b/%Y")
-    
+
     # Get how many square the user used
     print("How many square did you use? :", end="")
-    square = int(input())
+    squares = int(input())
 
     # Get location from the user
     print("Where did you do your business? :", end="")
@@ -32,6 +50,9 @@ def add_entry():
     print("Do you want to take any notes about IT? :", end="")
     notes = str(input())
 
+    write_entry(formatted_date, squares, location, notes)
+
+# Display all the stats added until now
 def display_stats():
     print("Stats placeholder")
 

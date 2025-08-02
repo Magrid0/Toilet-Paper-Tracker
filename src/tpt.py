@@ -18,10 +18,10 @@ def check_db():
             f.write("timestamp, squares, location, notes\n") # Write the header
 
 # Actually write the entry to the "database"
-def write_entry(time, sqr, loc, notes):
+def write_entry(date, sqr, loc, notes):
     with open(db, "a", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow([time, sqr, loc, notes])
+        writer.writerow([date, sqr, loc, notes])
 
 # Add an entry
 def add_entry():
@@ -51,6 +51,7 @@ def add_entry():
     notes = str(input())
 
     write_entry(formatted_date, squares, location, notes)
+    print(f"Logged: {squares} squares, at {location}. Notes: '{notes}'")
 
 # Display all the stats added until now
 def display_stats():

@@ -101,7 +101,7 @@ def display_stats():
 # Command line arguments
 parser.add_argument('-a', '--add', required=False, action='store_true', help='Add a new entry.')
 parser.add_argument('-s', '--stats', required=False, action='store_true', help='Display the stats you tracked.')
-# TODO: add a subargument to display row data
+# TODO: add a subargument to display raw data
 
 # Parse arguments
 args = parser.parse_args()

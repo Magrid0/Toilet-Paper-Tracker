@@ -1,9 +1,10 @@
-import argparse # Library to parse command line arguments
-from datetime import datetime # Library to get the current timestamp
-import csv # Library to manipulate csv file
-from pathlib import Path
+import argparse # Library for parsing command line arguments
+from datetime import datetime # Library for getting the current timestamp
+import csv # Library for manipulating csv file
+from pathlib import Path # Library for having a path variable
+from collections import Counter # Library for counting location stats
 
-db = Path("testData.csv")
+db = Path("testData.csv") # Database name/location
 
 # Parser to interpret command line arguments
 parser = argparse.ArgumentParser(
@@ -36,7 +37,7 @@ def add_entry():
     now = datetime.now()
 
     # Format date as "day/MonthAbbreviation/year"
-    formatted_date = now.strftime("%d/%b/%Y")
+    formatted_date = now.strftime("%d/%b/%Y %H:%M")
 
     # Get how many square the user used
     print("How many square did you use? :", end="")
@@ -55,11 +56,35 @@ def add_entry():
 
 # Display all the stats added until now
 def display_stats():
-    print("Stats placeholder")
+    # Define stats variable
+    totEntries = int(0) # Total entries
+    totSqr = int(0) # Total square used
+    avgSqr = float(0) # Average square used
+    topLoc = Counter() # Location ranking
+    totLoc = int(0) # Total location
+
+    # Read the file and calculate stats
+    with open(db, newline="") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            totEntries += 1 # Calculate the number of entries
+            totSqr += int(row["squares"]) # Calculate the number of squares used
+            topLoc.update([row["location"]]) # Rank the locations based on frequently used
+        avgSqr = float(totSqr / totEntries) # Calculate the average squares used\
+        totLoc = len(topLoc.keys()) # Get the total unique location
+
+    # Print stats
+    print('🧻 Toilet Paper Stats\n---------------------------------')
+    print(f'Total entries: {totEntries}')
+    print(f'Total squares used until now: {totSqr}')
+    print(f'Average squares used: {avgSqr}')
+    print(f'Number of place where you did it: {totLoc}')
+    print(f'Top three location where you did it: {topLoc.most_common(3)}')
 
 # Command line arguments
 parser.add_argument('-a', '--add', required=False, action='store_true', help='Add a new entry.')
 parser.add_argument('-s', '--stats', required=False, action='store_true', help='Display the stats you tracked.')
+# TODO: add a subargument to display row data
 
 # Parse arguments
 args = parser.parse_args()

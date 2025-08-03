@@ -3,6 +3,8 @@ from datetime import datetime # Library for getting the current timestamp
 import csv # Library for manipulating csv file
 from pathlib import Path # Library for having a path variable
 from collections import Counter # Library for counting location stats
+import plotext as plt # Library to draw plots directly in terminal
+from collections import defaultdict # For grouping squares by day
 
 db = Path("testData.csv") # Database name/location
 
@@ -16,7 +18,7 @@ parser = argparse.ArgumentParser(
 def check_db():
     if not db.exists():
         with open(db, "w", newline="") as f:
-            f.write("timestamp, squares, location, notes\n") # Write the header
+            f.write("timestamp,squares,location,notes\n") # Write the header
 
 # Actually write the entry to the "database"
 def write_entry(date, sqr, loc, notes):
@@ -52,7 +54,7 @@ def add_entry():
     notes = str(input())
 
     write_entry(formatted_date, squares, location, notes)
-    print(f"Logged: {squares} squares, at {location}. Notes: '{notes}'")
+    print(f"🧻Logged: {squares} squares, at {location}. Notes: '{notes}'")
 
 # Display all the stats added until now
 def display_stats():
@@ -103,10 +105,36 @@ def raw_stats():
         for row in reader:
             print(row)
 
+# Plot square usage over time
+def plot_graph():
+    check_db()
+
+    days = []
+    values = []
+
+    with open(db, newline="") as f:
+        reader = csv.DictReader(f)
+        for row in reader:
+            # Parse full timestamp
+            dt = datetime.strptime(row["timestamp"], "%d/%b/%Y %H:%M")
+            # Convert to just date string for plotext
+            date_str = dt.strftime("%d/%m/%Y")
+            days.append(date_str)
+            values.append(int(row["squares"]))
+
+    plt.clear_figure()
+    plt.date_form('d/m/Y')  # match the string format you're feeding in
+    plt.title("Toilet Paper Usage Over Time")
+    plt.xlabel("Date")
+    plt.ylabel("Squares Used")
+    plt.plot(days, values, marker="dot")
+    plt.show()
+
+
 # Command line arguments
 parser.add_argument('-a', '--add', required=False, action='store_true', help='Add a new entry.')
 parser.add_argument('-s', '--stats', nargs='?', const=True, default=False,choices=['raw'] , help='Display the stats you tracked.')
-# TODO: add a subargument to display raw data
+parser.add_argument('-g', '--graph', required=False, action='store_true', help='Plot your toilet paper usage over time.')
 
 # Parse arguments
 args = parser.parse_args()
@@ -117,3 +145,5 @@ if args.stats == True:
     display_stats()
 elif args.stats == "raw":
     raw_stats()
+if args.graph:
+    plot_graph()

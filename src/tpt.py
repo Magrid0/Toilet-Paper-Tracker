@@ -97,10 +97,15 @@ def display_stats():
         label = "time" if count == 1 else "times"
         print(f'  {medals[i]} {loc}: {count} {label}')
 
+def raw_stats():
+    with open(db, newline='') as f:
+        reader = csv.reader(f, delimiter=',')
+        for row in reader:
+            print(row)
 
 # Command line arguments
 parser.add_argument('-a', '--add', required=False, action='store_true', help='Add a new entry.')
-parser.add_argument('-s', '--stats', required=False, action='store_true', help='Display the stats you tracked.')
+parser.add_argument('-s', '--stats', nargs='?', const=True, default=False,choices=['raw'] , help='Display the stats you tracked.')
 # TODO: add a subargument to display raw data
 
 # Parse arguments
@@ -108,5 +113,7 @@ args = parser.parse_args()
 
 if args.add:
     add_entry()
-if args.stats:
+if args.stats == True:
     display_stats()
+elif args.stats == "raw":
+    raw_stats()

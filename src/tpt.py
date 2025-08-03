@@ -62,24 +62,41 @@ def display_stats():
     avgSqr = float(0) # Average square used
     topLoc = Counter() # Location ranking
     totLoc = int(0) # Total location
+    maxSqr = 0 # Maximum number of squares used in one session
+    maxSqrDate = "" # Date of most wasteful session
 
     # Read the file and calculate stats
     with open(db, newline="") as f:
         reader = csv.DictReader(f)
         for row in reader:
             totEntries += 1 # Calculate the number of entries
-            totSqr += int(row["squares"]) # Calculate the number of squares used
+            sqrUsed = int(row["squares"]) # Convert square value
+            totSqr += sqrUsed # Add to total squares
             topLoc.update([row["location"]]) # Rank the locations based on frequently used
-        avgSqr = float(totSqr / totEntries) # Calculate the average squares used\
-        totLoc = len(topLoc.keys()) # Get the total unique location
+
+            if sqrUsed > maxSqr: # Check for most wasteful session
+                maxSqr = sqrUsed
+                maxSqrDate = row["timestamp"]
+
+        # Calculate average squares used
+        avgSqr = float(totSqr / totEntries) if totEntries else 0
+
+        # Get total unique locations
+        totLoc = len(topLoc.keys())
 
     # Print stats
     print('🧻 Toilet Paper Stats\n---------------------------------')
     print(f'Total entries: {totEntries}')
     print(f'Total squares used until now: {totSqr}')
     print(f'Average squares used: {avgSqr}')
+    print(f'Most wasteful session: {maxSqr} squares on {maxSqrDate}')
     print(f'Number of place where you did it: {totLoc}')
-    print(f'Top three location where you did it: {topLoc.most_common(3)}')
+    print('Top three location where you did it:')
+    medals = ['🥇', '🥈', '🥉']
+    for i, (loc, count) in enumerate(topLoc.most_common(3)):
+        label = "time" if count == 1 else "times"
+        print(f'  {medals[i]} {loc}: {count} {label}')
+
 
 # Command line arguments
 parser.add_argument('-a', '--add', required=False, action='store_true', help='Add a new entry.')

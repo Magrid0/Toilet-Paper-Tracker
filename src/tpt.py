@@ -4,7 +4,6 @@ import csv # Library for manipulating csv file
 from pathlib import Path # Library for having a path variable
 from collections import Counter # Library for counting location stats
 import plotext as plt # Library to draw plots directly in terminal
-from collections import defaultdict # For grouping squares by day
 
 db = Path("testData.csv") # Database name/location
 

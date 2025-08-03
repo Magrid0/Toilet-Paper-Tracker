@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 import argparse # Library for parsing command line arguments
 from datetime import datetime # Library for getting the current timestamp
 import csv # Library for manipulating csv file
